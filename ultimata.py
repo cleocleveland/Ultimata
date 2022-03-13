@@ -16,6 +16,7 @@ class Ultimata:
         self.cell_count = self.gridX * self.gridY
         self.cells = {}
         self.create_cells()
+        self.player = Player(self.screen, self.cell_size)
 
         # message handling variables next
         self.font = pg.font.SysFont(None, 8, False, False)
@@ -43,13 +44,22 @@ class Ultimata:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.player.move("down")
+                if event.key == pygame.K_UP:
+                    self.player.move("up")
+                if event.key == pygame.K_RIGHT:
+                    self.player.move("right")
+                if event.key == pygame.K_LEFT:
+                    self.player.move("left")
 
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
         self.message_handler.draw()
         # self.draw_characters()
-        # self.draw_player()
+        self.player.draw()
         pg.display.flip()
 
     def cell_updater(self):
@@ -66,6 +76,19 @@ class Cell:
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.rect)
 
+
+class Player:
+    def __init__(self, surface, cell_size):
+        self.pos = (0, 0)
+        self.color = (100, 0, 100)
+        self.surface = surface
+        self.cell_size = cell_size
+        self.offset = int(self.cell_size / 2)
+        self.radius = int(self.cell_size / 2)
+
+    def move(self, direction, gridX, gridY):
+        if direction == "down":
+            self.pos[1] -= 1
 class MessageHandler:
     def __init__(self, x, y, w, h, screen, font):
         self.x = x
