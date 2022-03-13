@@ -26,6 +26,11 @@ class ultimata:
     def main_loop(self):
         while True:
             self.event_processor()
+            # self.process_cells()
+            # self.process_stats()
+            # self.process_messages()
+            # self.process_characters()
+            # self.process_player()
             self.screen_updater()
 
     def event_processor(self):
@@ -35,6 +40,10 @@ class ultimata:
 
     def screen_updater(self):
         self.cell_updater()
+        # self.draw_stats()
+        # self.draw_messages()
+        # self.draw_characters()
+        # self.draw_player()
         pg.display.flip()
 
     def cell_updater(self):
