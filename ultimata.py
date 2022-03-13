@@ -10,8 +10,8 @@ class ultimata:
         print(self.screen.get_size())
         self.title = "Ultimata"
         pg.display.set_caption(self.title)
-        self.gridX = 30
-        self.gridY = 20
+        self.gridX = 32
+        self.gridY = 16
         self.cell_size = 32
         self.cell_count = self.gridX * self.gridY
         self.cells = {}
@@ -52,6 +52,6 @@ class cell:
         pg.draw.rect(self.screen, self.color, self.rect)
 
 
-a = ultimata((1120, 800))
+a = ultimata((1184, 672))
 a.main_loop()
 print("hi")
