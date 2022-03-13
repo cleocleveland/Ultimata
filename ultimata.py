@@ -17,6 +17,13 @@ class Ultimata:
         self.cells = {}
         self.create_cells()
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY)
+        self.player = Player(self.screen, self.cell_size)
+
+        # message handling variables next
+        self.font = pg.font.SysFont(None, 8, False, False)
+        self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
+                                              (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
+                                              self.screen, self.font)
 
     def create_cells(self):
         for x in range(self.gridX):
@@ -51,7 +58,7 @@ class Ultimata:
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
-        # self.draw_messages()
+        self.message_handler.draw()
         # self.draw_characters()
         self.player.draw()
         pg.display.flip()
@@ -103,4 +110,3 @@ class Player:
 
 a = Ultimata((1184, 672)) # added this comment
 a.main_loop()
-print("hi")
