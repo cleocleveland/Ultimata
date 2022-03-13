@@ -1,7 +1,6 @@
 import sys, random
 import pygame as pg
 
-
 class Ultimata:
     def __init__(self, screen_size=(1184, 672)):  # screen_size is tuple (dimensions for main game screen)
         pg.init()
