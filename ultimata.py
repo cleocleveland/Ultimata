@@ -1,4 +1,6 @@
 import sys, random
+
+import pygame
 import pygame as pg
 
 
@@ -84,25 +86,27 @@ class Player:
         self.surface = surface
         self.cell_size = cell_size
         self.offset = int(self.cell_size / 2)
-        self.radius = int(self.cell_size / 2)
+        self.radius = int(self.cell_size * 0.3)
+        self.gridX = gridX - 1
+        self.gridY = gridY - 1
 
-    def move(self, direction, gridX, gridY):
+    def move(self, direction):
         if direction == "down":
-            self.pos[1] -= 1
-class MessageHandler:
-    def __init__(self, x, y, w, h, screen, font):
-        self.x = x
-        self.y = y
-        self.width = w
-        self.height = h
-        self.screen = screen
-        self.message_rect = pg.Rect(x, y, w, h)
-        self.color = (20, 80, 80)
-        self.title = "Message Box"
-        self.title_img = img = font.render('Message Box', True, (250, 205, 200))
+            if self.pos[1] != self.gridY:
+                self.pos = (self.pos[0], self.pos[1] + 1)
+        if direction == "up":
+            if self.pos[1] != 0:
+                self.pos = (self.pos[0], self.pos[1] - 1)
+        if direction == "right":
+            if self.pos[0] != self.gridX:
+                self.pos = (self.pos[0] + 1, self.pos[1])
+        if direction == "left":
+            if self.pos[0] != 0:
+                self.pos = (self.pos[0] - 1, self.pos[1])
 
     def draw(self):
-        pg.draw.rect(self.screen, self.color, self.message_rect)
+        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
+        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
 
 a = Ultimata((1184, 672))
 a.main_loop()
