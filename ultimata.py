@@ -1,5 +1,4 @@
 import sys, random
-
 import pygame
 import pygame as pg
 
