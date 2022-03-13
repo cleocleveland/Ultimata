@@ -51,7 +51,7 @@ class Ultimata:
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
-        # self.draw_messages()
+        self.message_handler.draw()
         # self.draw_characters()
         self.player.draw()
         pg.display.flip()
@@ -103,4 +103,3 @@ class Player:
 
 a = Ultimata((1184, 672)) # added this comment
 a.main_loop()
-print("hi")
