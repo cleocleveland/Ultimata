@@ -3,7 +3,7 @@ import pygame as pg
 
 
 class ultimata:
-    def __init__(self, screen_size=(900, 600)):  # dimensions for main game screen
+    def __init__(self, screen_size:  # screen_size is tuple (dimensions for main game screen)
         pg.init()
         self.screen_size = screen_size
         self.screen = pg.display.set_mode(self.screen_size)
