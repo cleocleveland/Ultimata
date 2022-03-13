@@ -2,7 +2,7 @@ import sys, random
 import pygame as pg
 
 
-class ultimata:
+class Ultimata:
     def __init__(self, screen_size=(1184, 672)):  # screen_size is tuple (dimensions for main game screen)
         pg.init()
         self.screen_size = screen_size
@@ -16,11 +16,13 @@ class ultimata:
         self.cell_count = self.gridX * self.gridY
         self.cells = {}
         self.create_cells()
+        self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
+                                              (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size, self.screen)
 
     def create_cells(self):
         for x in range(self.gridX):
             for y in range(self.gridY):
-                self.cells[(x, y)] = cell(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size,
+                self.cells[(x, y)] = Cell(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size,
                                           self.screen)
 
     def main_loop(self):
@@ -41,7 +43,7 @@ class ultimata:
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
-        # self.draw_messages()
+        # self.message_handler.draw()
         # self.draw_characters()
         # self.draw_player()
         pg.display.flip()
@@ -51,7 +53,7 @@ class ultimata:
             cell.draw()
 
 
-class cell:
+class Cell:
     def __init__(self, x, y, w, h, screen):
         self.screen = screen
         self.rect = pg.Rect(x, y, w, h)
@@ -60,7 +62,19 @@ class cell:
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.rect)
 
+class MessageHandler:
+    def __init__(self, x, y, w, h, screen):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.screen = screen
+        self.message_rect = pg.Rect(x, y, w, h)
+        self.color = (20, 80, 80)
 
-a = ultimata((1184, 672)) # added this comment
+    def draw(self):
+        pg.draw.rect(self.screen, self.color, self.message_rect)
+
+
+a = Ultimata((1184, 672)) # added this comment
 a.main_loop()
-print("hi")
