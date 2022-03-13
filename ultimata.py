@@ -17,6 +17,13 @@ class Ultimata:
         self.cells = {}
         self.create_cells()
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY)
+        self.player = Player(self.screen, self.cell_size)
+
+        # message handling variables next
+        self.font = pg.font.SysFont(None, 8, False, False)
+        self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
+                                              (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
+                                              self.screen, self.font)
 
     def create_cells(self):
         for x in range(self.gridX):
