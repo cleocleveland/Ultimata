@@ -44,14 +44,14 @@ class Ultimata:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_DOWN:
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_DOWN:
                     self.player.move("down")
-                if event.key == pygame.K_UP:
+                if event.key == pg.K_UP:
                     self.player.move("up")
-                if event.key == pygame.K_RIGHT:
+                if event.key == pg.K_RIGHT:
                     self.player.move("right")
-                if event.key == pygame.K_LEFT:
+                if event.key == pg.K_LEFT:
                     self.player.move("left")
 
     def screen_updater(self):
