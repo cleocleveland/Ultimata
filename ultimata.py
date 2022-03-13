@@ -16,6 +16,9 @@ class Ultimata:
         self.cell_count = self.gridX * self.gridY
         self.cells = {}
         self.create_cells()
+
+        # message handling variables next
+        self.font = pg.font.SysFont(None, 8, False, False)
         self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size, self.screen)
 
@@ -43,7 +46,7 @@ class Ultimata:
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
-        # self.message_handler.draw()
+        self.message_handler.draw()
         # self.draw_characters()
         # self.draw_player()
         pg.display.flip()
@@ -62,6 +65,8 @@ class Cell:
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.rect)
 
+
+
 class MessageHandler:
     def __init__(self, x, y, w, h, screen):
         self.x = x
@@ -71,9 +76,11 @@ class MessageHandler:
         self.screen = screen
         self.message_rect = pg.Rect(x, y, w, h)
         self.color = (20, 80, 80)
+        self.title = "Message Box"
 
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.message_rect)
+
 
 
 a = Ultimata((1184, 672)) # added this comment
