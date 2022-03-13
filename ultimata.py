@@ -52,6 +52,6 @@ class cell:
         pg.draw.rect(self.screen, self.color, self.rect)
 
 
-a = ultimata((1184, 672))
+a = ultimata((1184, 672)) # added this comment
 a.main_loop()
 print("hi")
