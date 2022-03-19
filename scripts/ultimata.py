@@ -66,7 +66,8 @@ class Cell:
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.rect)
 
-class MessageHandler:
+
+class MessageHandler: # for displaying messages at bottom of screen
     def __init__(self, x, y, w, h, screen, font):
         self.x = x
         self.y = y
@@ -80,6 +81,7 @@ class MessageHandler:
 
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.message_rect)
+
 
 a = Ultimata((1184, 672))
 a.main_loop()
