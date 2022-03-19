@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0d32f66d-83f5-47d2-b03e-85b688d5a5d2" name="Changes" comment="Updated pygame to pg." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="cleo_branch" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="26L85YibCitisp6Zos9tiBLwfg3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ultimata.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ultimata" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Ultimata" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\basil\OneDrive\Documents\Cleveland\Python Projects\Ultimata\venv\Scripts\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/ultimata.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d32f66d-83f5-47d2-b03e-85b688d5a5d2" name="Changes" comment="" />
+      <created>1647191324448</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647191324448</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Commented dimensions.">
+      <created>1647192025071</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1647192025071</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Updated dimensions.">
+      <created>1647193109964</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1647193109964</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Updated dimensions, making screen wider.">
+      <created>1647193292020</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647193292020</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Updated dimensions, making screen wider.">
+      <created>1647193507601</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1647193507601</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added processing and drawing code for future use.">
+      <created>1647199025935</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1647199025935</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added message handler class and bare implementation.">
+      <created>1647200267692</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1647200267692</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Added message box title and font.">
+      <created>1647200937071</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647200937072</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added message box title and font.">
+      <created>1647202681314</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1647202681314</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Revert &quot;implemented player movement&quot;&#10;&#10;This reverts commit 061f3663">
+      <created>1647204500795</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1647204500795</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated pygame to pg.">
+      <created>1647204608807</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1647204608807</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Updated pygame to pg.">
+      <created>1647206023382</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1647206023382</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Updated pygame to pg.">
+      <created>1647206455436</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1647206455436</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Updated pygame to pg.">
+      <created>1647206611455</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1647206611455</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Updated pygame to pg.">
+      <created>1647208201122</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1647208201122</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Updated pygame to pg.">
+      <created>1647208389956</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1647208389956</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="cleo_branch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Commented dimensions." />
+    <MESSAGE value="Updated dimensions." />
+    <MESSAGE value="Updated dimensions, making screen wider." />
+    <MESSAGE value="Added processing and drawing code for future use." />
+    <MESSAGE value="Added message handler class and bare implementation." />
+    <MESSAGE value="Added message box title and font." />
+    <MESSAGE value="Revert &quot;implemented player movement&quot;&#10;&#10;This reverts commit 061f3663" />
+    <MESSAGE value="Updated pygame to pg." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated pygame to pg." />
+  </component>
+</project>
