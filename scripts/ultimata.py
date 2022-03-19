@@ -1,6 +1,7 @@
 import sys, random
 import pygame as pg
 
+
 class ultimata:
     def __init__(self, screen_size=(900, 600)):
         pg.init()
@@ -19,7 +20,8 @@ class ultimata:
     def create_cells(self):
         for x in range(self.gridX):
             for y in range(self.gridY):
-                self.cells[(x, y)] = cell(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size, self.screen)
+                self.cells[(x, y)] = cell(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size,
+                                          self.screen)
 
     def main_loop(self):
         while True:
@@ -39,6 +41,7 @@ class ultimata:
         for cell in self.cells.values():
             cell.draw()
 
+
 class cell:
     def __init__(self, x, y, w, h, screen):
         self.screen = screen
@@ -47,6 +50,7 @@ class cell:
 
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.rect)
+
 
 a = ultimata((900, 600))
 a.main_loop()
