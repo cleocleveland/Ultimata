@@ -1,4 +1,5 @@
-import sys, random
+import sys
+import random
 import pygame as pg
 
 class Ultimata:
