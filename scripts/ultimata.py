@@ -16,8 +16,6 @@ class Ultimata:
         self.cell_count = self.gridX * self.gridY
         self.cells = {}
         self.create_cells()
-
-        # message handling variables next
         self.font = pg.font.SysFont(None, 8, False, False)
         self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
