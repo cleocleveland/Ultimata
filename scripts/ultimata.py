@@ -1,4 +1,5 @@
-import sys, random
+import sys
+import random
 import pygame as pg
 
 class Ultimata:
@@ -54,7 +55,7 @@ class Ultimata:
     def screen_updater(self):
         self.cell_updater()
         # self.draw_stats()
-        # self.draw_messages()
+        self.message_handler.draw()
         # self.draw_characters()
         self.player.draw()
         pg.display.flip()
@@ -99,6 +100,11 @@ class Player:
             if self.pos[0] != 0:
                 self.pos = (self.pos[0] - 1, self.pos[1])
 
+    def draw(self):
+        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
+        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
+
+
 class MessageHandler: # for displaying messages at bottom of screen
     def __init__(self, x, y, w, h, screen, font):
         self.x = x
@@ -112,8 +118,7 @@ class MessageHandler: # for displaying messages at bottom of screen
         self.title_img = img = font.render('Message Box', True, (250, 205, 200))
 
     def draw(self):
-        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
-        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
+        pg.draw.rect(self.screen, self.color, self.message_rect)
 
 
 a = Ultimata((1184, 672))
