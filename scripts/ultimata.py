@@ -1,7 +1,6 @@
 import sys, random
 import pygame as pg
 
-
 class Ultimata:
     def __init__(self, screen_size=(1184, 672)):  # screen_size is tuple (dimensions for main game screen)
         pg.init()
@@ -17,6 +16,10 @@ class Ultimata:
         self.cells = {}
         self.create_cells()
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY)
+        self.font = pg.font.SysFont(None, 8, False, False)
+        self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
+                                              (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
+                                              self.screen, self.font)
 
     def create_cells(self):
         for x in range(self.gridX):
@@ -96,11 +99,22 @@ class Player:
             if self.pos[0] != 0:
                 self.pos = (self.pos[0] - 1, self.pos[1])
 
+class MessageHandler: # for displaying messages at bottom of screen
+    def __init__(self, x, y, w, h, screen, font):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.screen = screen
+        self.message_rect = pg.Rect(x, y, w, h)
+        self.color = (20, 80, 80)
+        self.title = "Message Box"
+        self.title_img = img = font.render('Message Box', True, (250, 205, 200))
+
     def draw(self):
         pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
         pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
 
 
-a = Ultimata((1184, 672)) # added this comment
+a = Ultimata((1184, 672))
 a.main_loop()
-print("hi")
