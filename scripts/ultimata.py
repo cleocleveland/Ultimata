@@ -1,6 +1,48 @@
 import sys
 import random
+import os
 import pygame as pg
+
+tileset = {}
+levels = {0:[0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3,
+             0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3]}
+
+
+class Tile:
+
+    def __init__(self, image):
+        self.image = image
+
 
 class Ultimata:
     def __init__(self, screen_size=(1184, 672)):  # screen_size is tuple (dimensions for main game screen)
@@ -10,6 +52,8 @@ class Ultimata:
         print(self.screen.get_size())
         self.title = "Ultimata"
         pg.display.set_caption(self.title)
+        self.load_tiles()
+        self.current_level = 0
         self.gridX = 32
         self.gridY = 16
         self.cell_size = 32
@@ -22,11 +66,27 @@ class Ultimata:
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
                                               self.screen, self.font)
 
+    def load_tiles(self):
+        global tileset
+        counter = 0
+        for filename in os.listdir('tiles'):
+            img = pg.image.load(os.path.join("tiles", filename)).convert()
+            tileset[counter] = Tile(img)
+            counter += 1
+        print(tileset)
+
     def create_cells(self):
-        for x in range(self.gridX):
-            for y in range(self.gridY):
+        global levels
+        counter = 0
+        limit = len(levels[self.current_level])
+        for y in range(self.gridY):
+            for x in range(self.gridX):
+                if counter >= limit:
+                    counter = 0
+                tile = levels[self.current_level][counter]
                 self.cells[(x, y)] = Cell(x * self.cell_size, y * self.cell_size, self.cell_size, self.cell_size,
-                                          self.screen)
+                                          self.screen, tile)
+                counter += 1
 
     def main_loop(self):
         while True:
@@ -66,13 +126,13 @@ class Ultimata:
 
 
 class Cell:
-    def __init__(self, x, y, w, h, screen):
+    def __init__(self, x, y, w, h, screen, tile):
         self.screen = screen
         self.rect = pg.Rect(x, y, w, h)
-        self.color = random.choice([(0, 0, 200), (0, 200, 0), (200, 0, 0)])
+        self.tile = tileset[tile]
 
     def draw(self):
-        pg.draw.rect(self.screen, self.color, self.rect)
+        self.screen.blit(self.tile.image, self.rect)
 
 
 class Player:
