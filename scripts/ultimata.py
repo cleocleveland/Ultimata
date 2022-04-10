@@ -148,7 +148,7 @@ class Cell:
 class Player:
     def __init__(self, surface, cell_size, gridX, gridY, start):
         self.pos = start
-        self.color = (100, 0, 100)
+        self.color = (0, 0, 200)
         self.direction = ""
         self.surface = surface
         self.cell_size = cell_size
@@ -156,28 +156,22 @@ class Player:
         self.radius = int(self.cell_size * 0.3)
         self.gridX = gridX - 1
         self.gridY = gridY - 1
-        # player can post message anytime by appending tuple to self.messages list ("text", "player")
-        self.messages = [("Player initialized...", "system")]
         self.hp = 100
 
     def move(self, direction):
-        global cells, messages
+        global cells
         if direction == "down":
             if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass":
                 self.pos = (self.pos[0], self.pos[1] + 1)
-                self.messages.append(("Down", "player"))
         if direction == "up":
             if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass":
                 self.pos = (self.pos[0], self.pos[1] - 1)
-                self.messages.append(("Up", "player"))
         if direction == "right":
             if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass":
                 self.pos = (self.pos[0] + 1, self.pos[1])
-                self.messages.append(("Right", "player"))
         if direction == "left":
             if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass":
                 self.pos = (self.pos[0] - 1, self.pos[1])
-                self.messages.append(("Left", "player"))
 
     def draw(self):
         pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
@@ -257,6 +251,44 @@ class StatsHandler:  # for displaying messages at right of screen
         hp_img = self.stats_font.render("Hit Point: " + str(self.hp), True, self.stats_color)
         self.screen.blit(hp_img, (self.x + self.xPad, self.y + (3 * self.yPad)))
 
+
+class Monster:
+    def __init__(self, surface, cell_size, gridX, gridY, start):
+        self.pos = start
+        self.color = (100, 0, 100)
+        self.direction = ""
+        self.surface = surface
+        self.cell_size = cell_size
+        self.offset = int(self.cell_size / 2)
+        self.radius = int(self.cell_size * 0.3)
+        self.gridX = gridX - 1
+        self.gridY = gridY - 1
+        # player can post message anytime by appending tuple to self.messages list ("text", "player")
+        self.messages = [("Player initialized...", "system")]
+        self.hp = 100
+
+    def move(self, direction):
+        global cells, messages
+        if direction == "down":
+            if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass":
+                self.pos = (self.pos[0], self.pos[1] + 1)
+                self.messages.append(("Down", "player"))
+        if direction == "up":
+            if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass":
+                self.pos = (self.pos[0], self.pos[1] - 1)
+                self.messages.append(("Up", "player"))
+        if direction == "right":
+            if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass":
+                self.pos = (self.pos[0] + 1, self.pos[1])
+                self.messages.append(("Right", "player"))
+        if direction == "left":
+            if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass":
+                self.pos = (self.pos[0] - 1, self.pos[1])
+                self.messages.append(("Left", "player"))
+
+    def draw(self):
+        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
+        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
 
 a = Ultimata((1184, 672))
 a.main_loop()
