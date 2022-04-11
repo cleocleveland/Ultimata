@@ -47,6 +47,8 @@ class Ultimata:
         self.cell_size = 32
         self.cell_count = self.gridX * self.gridY
         self.create_cells()
+        self.monsters = []
+        self.action_taken = False
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY, levels[self.current_level][1])
         self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
@@ -56,6 +58,9 @@ class Ultimata:
         self.stats_handler = StatsHandler(self.cell_size * self.gridX, 0, 5 * self.cell_size,
                                           self.gridY * self.cell_size,
                                           self.screen)
+        self.create_monster((3, 3))
+        self.create_monster((19, 11))
+        self.create_monster((28, 3))
 
     def load_tiles(self):
         global tileset
@@ -89,18 +94,23 @@ class Ultimata:
             self.screen_updater()
 
     def event_processor(self):
+        self.action_taken = False
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 sys.exit()
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_DOWN:
-                    self.player.move("down")
+                    self.player.move("down", self.get_pos())
+                    self.action_taken = True
                 if event.key == pg.K_UP:
-                    self.player.move("up")
+                    self.player.move("up", self.get_pos())
+                    self.action_taken = True
                 if event.key == pg.K_RIGHT:
-                    self.player.move("right")
+                    self.player.move("right", self.get_pos())
+                    self.action_taken = True
                 if event.key == pg.K_LEFT:
-                    self.player.move("left")
+                    self.player.move("left", self.get_pos())
+                    self.action_taken = True
                 if event.key == pg.K_w:
                     self.player.direction = "up"
                 if event.key == pg.K_s:
@@ -109,12 +119,17 @@ class Ultimata:
                     self.player.direction = "right"
                 if event.key == pg.K_d:
                     self.player.direction = "left"
+        if self.action_taken:
+            for monster in self.monsters:
+                monster.go(self.get_pos())
 
     def screen_updater(self):
         self.cell_updater()
         self.stats_updater()
         self.message_updater()
         self.player.draw()
+        for monster in self.monsters:
+            monster.draw()
         pg.display.flip()
 
     def stats_updater(self):
@@ -132,6 +147,14 @@ class Ultimata:
         for cell in cells.values():
             cell.draw()
 
+    def create_monster(self, spawn):
+        self.monsters.append(Monster(self.screen, self.cell_size, self.gridX, self.gridY, spawn))
+
+    def get_pos(self):
+        pos = [self.player.pos]
+        for monster in self.monsters:
+            pos.append(monster.pos)
+        return(pos)
 
 class Cell:
     def __init__(self, x, y, w, h, screen, tile):
@@ -156,22 +179,27 @@ class Player:
         self.radius = int(self.cell_size * 0.3)
         self.gridX = gridX - 1
         self.gridY = gridY - 1
+        self.messages = [("Initialising system...", "player")]
         self.hp = 100
 
-    def move(self, direction):
+    def move(self, direction, lis):
         global cells
         if direction == "down":
-            if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass":
+            if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass" and (self.pos[0], self.pos[1] + 1) not in lis:
                 self.pos = (self.pos[0], self.pos[1] + 1)
+                self.messages.append(("Down", "player"))
         if direction == "up":
-            if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass":
+            if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass" and (self.pos[0], self.pos[1] - 1) not in lis:
                 self.pos = (self.pos[0], self.pos[1] - 1)
+                self.messages.append(("Up", "player"))
         if direction == "right":
-            if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass":
+            if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass" and (self.pos[0] + 1, self.pos[1]) not in lis:
                 self.pos = (self.pos[0] + 1, self.pos[1])
+                self.messages.append(("Right", "player"))
         if direction == "left":
-            if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass":
+            if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass" and (self.pos[0] - 1, self.pos[1]) not in lis:
                 self.pos = (self.pos[0] - 1, self.pos[1])
+                self.messages.append(("Left", "player"))
 
     def draw(self):
         pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
@@ -255,7 +283,7 @@ class StatsHandler:  # for displaying messages at right of screen
 class Monster:
     def __init__(self, surface, cell_size, gridX, gridY, start):
         self.pos = start
-        self.color = (100, 0, 100)
+        self.color = (0, 200, 200)
         self.direction = ""
         self.surface = surface
         self.cell_size = cell_size
@@ -267,24 +295,33 @@ class Monster:
         self.messages = [("Player initialized...", "system")]
         self.hp = 100
 
-    def move(self, direction):
-        global cells, messages
+    def go(self, lis):
+        answer = self.move(random.choice(["up", "down", "left", "right"]), lis)
+        while answer == "nope":
+            answer = self.move(random.choice(["up", "down", "left", "right"]), lis)
+
+    def move(self, direction, lis):
+        global cells
         if direction == "down":
-            if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass":
+            if self.pos[1] != self.gridY and cells[(self.pos[0], self.pos[1] + 1)].tile_type[1] == "pass" and (self.pos[0], self.pos[1] + 1) not in lis:
                 self.pos = (self.pos[0], self.pos[1] + 1)
-                self.messages.append(("Down", "player"))
+            else:
+                return("nope")
         if direction == "up":
-            if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass":
+            if self.pos[1] != 0 and cells[(self.pos[0], self.pos[1] - 1)].tile_type[1] == "pass" and (self.pos[0], self.pos[1] - 1) not in lis:
                 self.pos = (self.pos[0], self.pos[1] - 1)
-                self.messages.append(("Up", "player"))
+            else:
+                return("nope")
         if direction == "right":
-            if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass":
+            if self.pos[0] != self.gridX and cells[(self.pos[0] + 1, self.pos[1])].tile_type[1] == "pass" and (self.pos[0] + 1, self.pos[1]) not in lis:
                 self.pos = (self.pos[0] + 1, self.pos[1])
-                self.messages.append(("Right", "player"))
+            else:
+                return("nope")
         if direction == "left":
-            if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass":
+            if self.pos[0] != 0 and cells[(self.pos[0] - 1, self.pos[1])].tile_type[1] == "pass" and (self.pos[0] - 1, self.pos[1]) not in lis:
                 self.pos = (self.pos[0] - 1, self.pos[1])
-                self.messages.append(("Left", "player"))
+            else:
+                return("nope")
 
     def draw(self):
         pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
