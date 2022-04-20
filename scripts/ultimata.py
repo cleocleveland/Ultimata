@@ -49,6 +49,7 @@ class Ultimata:
         self.create_cells()
         self.monsters = []
         self.action_taken = False
+        self.arrows = []
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY, levels[self.current_level][1])
         self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
