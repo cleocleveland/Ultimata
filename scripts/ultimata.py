@@ -170,6 +170,7 @@ class Cell:
 
 class Player:
     def __init__(self, surface, cell_size, gridX, gridY, start):
+        self.pixel_pos = ()
         self.pos = start
         self.color = (0, 0, 200)
         self.direction = ""
@@ -202,7 +203,7 @@ class Player:
                 self.messages.append(("Left", "player"))
 
     def draw(self):
-        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
+        self.pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
         pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
 
 
@@ -326,6 +327,33 @@ class Monster:
     def draw(self):
         pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
         pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
+
+class fire:
+    def __init__(self, start, dir, surface, frameRate=2):
+        self.pos = start
+        self.status = True
+        self.dir = dir
+        self.counter = 0
+        self.frameRate = frameRate
+        self.surface = surface
+        self.color = (0, 0, 0)
+
+    def draw(self):
+        pg.draw.circle(self.surface, self.color, self.pos, 5, 0)
+
+    def move(self):
+        self.counter += 1
+        if self.counter == self.frameRate:
+            self.counter = 0
+            if self.dir == "down":
+                self.pos = (self.pos[0], self.pos[1] + 1)
+            if self.dir == "up":
+                self.pos = (self.pos[0], self.pos[1] - 1)
+            if self.dir == "left":
+                self.pos = (self.pos[0] + 1, self.pos[1])
+            if self.dir == "right":
+                self.pos = (self.pos[0] - 1, self.pos[1])
+
 
 a = Ultimata((1184, 672))
 a.main_loop()
