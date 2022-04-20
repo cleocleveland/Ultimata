@@ -116,9 +116,9 @@ class Ultimata:
                 if event.key == pg.K_s:
                     self.player.direction = "down"
                 if event.key == pg.K_a:
-                    self.player.direction = "right"
-                if event.key == pg.K_d:
                     self.player.direction = "left"
+                if event.key == pg.K_d:
+                    self.player.direction = "right"
         if self.action_taken:
             for monster in self.monsters:
                 monster.go(self.get_pos())
@@ -134,6 +134,7 @@ class Ultimata:
 
     def stats_updater(self):
         self.stats_handler.hp = self.player.hp
+        self.stats_handler.direction = self.player.direction
         self.stats_handler.draw()
 
     def message_updater(self):
@@ -273,12 +274,15 @@ class StatsHandler:  # for displaying messages at right of screen
         self.title_img = self.stats_title.render(self.title, True, self.title_color)
         # include various stats for updating below
         self.hp = 0
+        self.direction = "Test"
 
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.stats_rect)
         self.screen.blit(self.title_img, (self.x + self.xPad, self.y + self.yPad))
         hp_img = self.stats_font.render("Hit Point: " + str(self.hp), True, self.stats_color)
         self.screen.blit(hp_img, (self.x + self.xPad, self.y + (3 * self.yPad)))
+        direction_img = self.stats_font.render("Direction: " + self.direction, True, self.stats_color)
+        self.screen.blit(direction_img, (self.x + self.xPad, self.y + (4.5 * self.yPad)))
 
 
 class Monster:
