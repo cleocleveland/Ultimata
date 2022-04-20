@@ -58,6 +58,7 @@ class Ultimata:
         self.stats_handler = StatsHandler(self.cell_size * self.gridX, 0, 5 * self.cell_size,
                                           self.gridY * self.cell_size,
                                           self.screen)
+        self.message_handler.queue.append(("Game State initialized...", "system"))
         self.create_monster((3, 3))
         self.create_monster((19, 11))
         self.create_monster((28, 3))
@@ -135,6 +136,7 @@ class Ultimata:
     def stats_updater(self):
         self.stats_handler.hp = self.player.hp
         self.stats_handler.direction = self.player.direction
+        self.stats_handler.monster_count = len(self.monsters)
         self.stats_handler.draw()
 
     def message_updater(self):
@@ -174,14 +176,14 @@ class Player:
         self.pixel_pos = ()
         self.pos = start
         self.color = (0, 0, 200)
-        self.direction = ""
+        self.direction = "right"
         self.surface = surface
         self.cell_size = cell_size
         self.offset = int(self.cell_size / 2)
         self.radius = int(self.cell_size * 0.3)
         self.gridX = gridX - 1
         self.gridY = gridY - 1
-        self.messages = [("Initialising system...", "player")]
+        self.messages = [("Player initialized...", "system"), ("Ready to move...", "player")]
         self.hp = 100
 
     def move(self, direction, lis):
@@ -275,6 +277,7 @@ class StatsHandler:  # for displaying messages at right of screen
         # include various stats for updating below
         self.hp = 0
         self.direction = "Test"
+        self.monster_count = 0
 
     def draw(self):
         pg.draw.rect(self.screen, self.color, self.stats_rect)
@@ -282,7 +285,9 @@ class StatsHandler:  # for displaying messages at right of screen
         hp_img = self.stats_font.render("Hit Point: " + str(self.hp), True, self.stats_color)
         self.screen.blit(hp_img, (self.x + self.xPad, self.y + (3 * self.yPad)))
         direction_img = self.stats_font.render("Direction: " + self.direction, True, self.stats_color)
-        self.screen.blit(direction_img, (self.x + self.xPad, self.y + (4.5 * self.yPad)))
+        self.screen.blit(direction_img, (self.x + self.xPad, self.y + (5 * self.yPad)))
+        monster_img = self.stats_font.render("Monsters: " + str(self.monster_count), True, self.stats_color)
+        self.screen.blit(monster_img, (self.x + self.xPad, self.y + (6.5 * self.yPad)))
 
 
 class Monster:
