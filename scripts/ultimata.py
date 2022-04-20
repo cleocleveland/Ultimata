@@ -116,9 +116,9 @@ class Ultimata:
                 if event.key == pg.K_s:
                     self.player.direction = "down"
                 if event.key == pg.K_a:
-                    self.player.direction = "right"
-                if event.key == pg.K_d:
                     self.player.direction = "left"
+                if event.key == pg.K_d:
+                    self.player.direction = "right"
         if self.action_taken:
             for monster in self.monsters:
                 monster.go(self.get_pos())
