@@ -205,7 +205,7 @@ class Player:
 
     def draw(self):
         self.pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
-        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
+        pg.draw.circle(self.surface, self.color, self.pixel_pos, self.radius, 0)
 
 
 class MessageHandler:  # for displaying messages at bottom of screen
