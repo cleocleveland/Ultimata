@@ -48,13 +48,15 @@ class Ultimata:
         self.cell_count = self.gridX * self.gridY
         self.create_cells()
         self.monsters = []
+        self.speed = 60
         self.action_taken = False
+        self.fired = False
         self.arrows = []
         self.player = Player(self.screen, self.cell_size, self.gridX, self.gridY, levels[self.current_level][1])
         self.message_handler = MessageHandler(0, self.gridY * self.cell_size,
                                               (self.gridX + 5) * self.cell_size, (self.gridX + 5) * self.cell_size,
                                               self.screen)
-        # messages can be added from anywhere in app by self.message_handler.queue.append(("text", "system"))
+        # messages can be added from anywhere in-app by self.message_handler.queue.append(("text", "system"))
         self.message_handler.queue.append(("Messages Handler initialized...", "system"))
         self.stats_handler = StatsHandler(self.cell_size * self.gridX, 0, 5 * self.cell_size,
                                           self.gridY * self.cell_size,
@@ -99,6 +101,7 @@ class Ultimata:
 
     def event_processor(self):
         self.action_taken = False
+        self.fired = False
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 sys.exit()
@@ -124,27 +127,33 @@ class Ultimata:
                 if event.key == pg.K_d:
                     self.player.direction = "right"
                 if event.key == pg.K_f:
-                    self.fire()
+                    self.player_fires()
+                    self.fired = True
+                if event.key == pg.K_MINUS:
+                    self.speed -= 3
+                if event.key == pg.K_EQUALS:
+                    self.speed += 3
 
         if self.action_taken:
             for monster in self.monsters:
                 monster.go(self.get_pos())
+        if self.action_taken or self.fired:
+            self.monsters_fire()
 
-    def fire(self):
-        arrow = Fire(self.player.pixel_pos, self.player.direction, self.screen)
+    def player_fires(self):
+        arrow = Fire(self.player.pixel_pos, self.player.direction, self.screen, self.speed, self.player)
         self.arrows.append(arrow)
 
     def update_arrows(self):
         dead = []
         for arrow in self.arrows:
-            arrow.move()
-            arrow.check(self.monsters, self.cell_size)
+            arrow.move(self.clock.get_fps())
+            arrow.check(self.monsters, self.cell_size, self.player)
             if arrow.status == False:
                 dead.append(arrow)
             arrow.draw()
         for arrow in dead:
             self.arrows.pop(self.arrows.index(arrow))
-
 
     def screen_updater(self):
         self.cell_updater()
@@ -190,6 +199,12 @@ class Ultimata:
             pos.append(monster.pos)
         return(pos)
 
+    def monsters_fire(self):
+        for monster in self.monsters:
+            if random.randint(1, 3) == 1:
+                arrow = Fire(monster.pixel_pos, random.choice(["up", "down", "left", "right"]), self.screen,
+                             self.speed, monster)
+                self.arrows.append(arrow)
 
 
 class Cell:
@@ -217,9 +232,8 @@ class Player:
         self.gridX = gridX - 1
         self.gridY = gridY - 1
         self.messages = [("Initialising system...", "player")]
-        self.hp = 10
+        self.hp = 5
         self.messages = [("Player initialized...", "system"), ("Ready to move...", "player")]
-        self.hp = 100
 
     def move(self, direction, lis):
         global cells
@@ -328,6 +342,7 @@ class StatsHandler:  # for displaying messages at right of screen
 class Monster:
     def __init__(self, surface, cell_size, gridX, gridY, start):
         self.pos = start
+        self.pixel_pos = ()
         self.color = (0, 200, 200)
         self.direction = ""
         self.surface = surface
@@ -369,11 +384,11 @@ class Monster:
                 return("nope")
 
     def draw(self):
-        pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
-        pg.draw.circle(self.surface, self.color, pixel_pos, self.radius, 0)
+        self.pixel_pos = (self.pos[0] * self.cell_size + self.offset, self.pos[1] * self.cell_size + self.offset)
+        pg.draw.circle(self.surface, self.color, self.pixel_pos, self.radius, 0)
 
 class Fire:
-    def __init__(self, start, direction, surface, speed=3):
+    def __init__(self, start, direction, surface, speed, shooter):
         self.pos = start
         self.status = True
         self.dir = direction
@@ -381,6 +396,7 @@ class Fire:
         self.speed = speed
         self.surface = surface
         self.color = (0, 0, 0)
+        self.shooter = shooter
 
     def draw(self):
         pg.draw.circle(self.surface, self.color, (int(self.pos[0]), int(self.pos[1])), 5, 0)
@@ -396,14 +412,15 @@ class Fire:
         if self.dir == "left":
             self.pos = (self.pos[0] - distance, self.pos[1])
 
-    def check(self, enemies, cell_size):
+    def check(self, monsters, cell_size, player):
         global cells
         cell_pos = (int(self.pos[0]/cell_size), int(self.pos[1]/cell_size))
         if cells[cell_pos].tile_type[1] == "no pass":
-
             self.status = False
+        enemies = monsters.copy()
+        enemies.append(player)
         for enemy in enemies:
-            if enemy.pos == cell_pos:
+            if enemy.pos == cell_pos and enemy != self.shooter:
                 enemy.hp -= 1
                 print(enemy.hp)
                 self.status = False
